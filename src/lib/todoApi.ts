@@ -52,3 +52,16 @@ export const addTodo = async (text: string): Promise<Todo> => {
 export const deleteTodo = async (id: Todo["id"]) => {
   await fetch(`${API_URL}/${id}`, { method: "DELETE" });
 };
+
+
+// 투두 수정 (PATCH)
+export const editTodo = async (id: Todo["id"], text: string): Promise<Todo> => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }), // text 수정 
+  });
+
+  if (!response.ok) throw new Error("데이터를 수정하는 데 실패했습니다.");
+  return response.json();
+};
