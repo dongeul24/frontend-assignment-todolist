@@ -3,6 +3,7 @@
 import { useState } from "react";
 import TodoForm from "./TodoForm";
 import { useTodos } from "@/hooks/useTodos";
+import { getPagination } from "@/utils/getPagination";
 
 export default function TodoList() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,15 +19,8 @@ export default function TodoList() {
       </p>
     );
 
-  // 페이지네이션 로직
-  const totalPages = data?.pages || 1;
-  const visiblePages = 4; // 표시할 페이지 개수
-  const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
-  const endPage = Math.min(totalPages, startPage + visiblePages - 1);
-  const pages = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i
-  );
+  const totalPages = data?.pages || 1; //총 페이지 개수(마지막 페이지)
+  const pages = getPagination(currentPage, data?.pages || 1); // 현재 페이지를 기준으로 표시할 페이지 번호 배열 생성
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-5">
