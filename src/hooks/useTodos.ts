@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getTodos, addTodo } from "@/lib/todoApi";
+import { getTodos, addTodo, deleteTodo } from "@/lib/todoApi";
 import Pagination from "@/types/Pagination";
 
 // 투두 목록 가져오기
@@ -22,5 +22,17 @@ export function useAddTodo() {
     },
   });
 
+  return { mutate, isPending, isError };
+}
+
+// 투두 삭제
+export function useDeleteTodo() {
+  const queryClient = useQueryClient();
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: deleteTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
   return { mutate, isPending, isError };
 }

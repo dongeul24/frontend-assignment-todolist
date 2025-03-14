@@ -47,3 +47,8 @@ export const addTodo = async (text: string): Promise<Todo> => {
   if (!response.ok) throw new Error("데이터를 추가하는 데 실패했습니다.");
   return response.json();
 };
+
+// 투두 삭제 (DELETE)
+export const deleteTodo = async (id: Todo["id"]) => {
+  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+};

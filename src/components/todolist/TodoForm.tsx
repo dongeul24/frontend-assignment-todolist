@@ -2,12 +2,16 @@
 
 import { format } from "date-fns";
 import { Todo } from "@/types/Todo";
+import { useDeleteTodo } from "@/hooks/useTodos";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 
 type TodoFormProps = {
   todo: Todo;
 };
 
 const TodoForm = ({ todo }: TodoFormProps) => {
+  const deleteTodoMutation = useDeleteTodo();
+
   return (
     <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md transition hover:shadow-lg">
       {/* 할 일 내용 */}
@@ -23,6 +27,14 @@ const TodoForm = ({ todo }: TodoFormProps) => {
       <span className="text-sm text-gray-500">
         {format(new Date(todo.date), "yyyy. MM. dd. HH:mm")}
       </span>
+
+      {/* 삭제 버튼 */}
+      <button
+        onClick={() => deleteTodoMutation.mutate(todo.id)}
+        className="ml-3 px-3 py-3 text-red-500 border-red-500 border-2 rounded-md hover:bg-red-500 hover:text-white transition cursor-pointer"
+      >
+        <RiDeleteBin6Fill />
+      </button>
     </div>
   );
 };
