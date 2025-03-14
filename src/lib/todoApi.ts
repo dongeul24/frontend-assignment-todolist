@@ -1,5 +1,5 @@
 import Pagination from "@/types/Pagination";
-import Todo from "@/types/Todo";
+import Todo, { ToggleTodo, EditTodo } from "@/types/Todo";
 
 const API_URL = "http://localhost:3000/todos";
 
@@ -53,15 +53,23 @@ export const deleteTodo = async (id: Todo["id"]) => {
   await fetch(`${API_URL}/${id}`, { method: "DELETE" });
 };
 
-
 // 투두 수정 (PATCH)
-export const editTodo = async (id: Todo["id"], text: string): Promise<Todo> => {
+export const editTodo = async ({ id, text }: EditTodo): Promise<Todo> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }), // text 수정 
+    body: JSON.stringify({ text }), // text 수정
   });
 
   if (!response.ok) throw new Error("데이터를 수정하는 데 실패했습니다.");
   return response.json();
+};
+
+// 투두 완료, 미완료 토글 (PATCH)
+export const toggleTodo = async ({ id, completed }: ToggleTodo) => {
+  await fetch(`${API_URL}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ completed: !completed }),
+  });
 };

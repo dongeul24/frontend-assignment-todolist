@@ -45,13 +45,13 @@
     {
       "id": "60e7babf-5ab5-4f38-87ba-3d29d18e874b",
       "text": "ㅎ",
-      "completed": false,
+      "completed": true,
       "date": "2025-03-14T00:33:32.044Z"
     },
     {
       "id": "e87f70ec-9343-496c-822c-82f3d8926623",
       "text": "이건 고친 내용zzz",
-      "completed": false,
+      "completed": true,
       "date": "2025-03-14T00:33:32.317Z"
     }
   ]

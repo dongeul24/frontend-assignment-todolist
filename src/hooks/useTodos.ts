@@ -1,6 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getTodos, addTodo, deleteTodo, editTodo } from "@/lib/todoApi";
+import {
+  getTodos,
+  addTodo,
+  deleteTodo,
+  editTodo,
+  toggleTodo,
+} from "@/lib/todoApi";
 import Pagination from "@/types/Pagination";
+import { EditTodo, ToggleTodo } from "@/types/Todo";
 
 // 투두 목록 가져오기
 export function useTodos(page: number, perPage: number) {
@@ -41,12 +48,23 @@ export function useDeleteTodo() {
 export function useEditTodo() {
   const queryClient = useQueryClient();
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: ({ id, text }: { id: string; text: string }) =>
-      editTodo(id, text),
+    mutationFn: (todo: EditTodo) => editTodo(todo),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] }); 
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 
+  return { mutate, isPending, isError };
+}
+
+// 완료/미완료 토글
+export function useToggleTodo() {
+  const queryClient = useQueryClient();
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (todo: ToggleTodo) => toggleTodo(todo),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
   return { mutate, isPending, isError };
 }

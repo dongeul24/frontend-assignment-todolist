@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { Todo } from "@/types/Todo";
-import { useDeleteTodo, useEditTodo } from "@/hooks/useTodos";
+import { useDeleteTodo, useEditTodo, useToggleTodo } from "@/hooks/useTodos";
 import { RiDeleteBin6Fill, RiEdit2Fill, RiSave2Fill } from "react-icons/ri";
 
 type TodoFormProps = {
@@ -13,6 +13,7 @@ type TodoFormProps = {
 const TodoForm = ({ todo }: TodoFormProps) => {
   const deleteTodoMutation = useDeleteTodo();
   const editTodoMutation = useEditTodo();
+  const toggleTodoMutation = useToggleTodo();
   const [isEditing, setIsEditing] = useState(false); // 수정 중인지 아닌지 상태 확인
   const [newText, setNewText] = useState(todo.text); //수정 내용
 
@@ -24,6 +25,15 @@ const TodoForm = ({ todo }: TodoFormProps) => {
 
   return (
     <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md transition hover:shadow-lg">
+      {/* 체크박스 (완료/미완료 토글) */}
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() =>
+          toggleTodoMutation.mutate({ id: todo.id, completed: todo.completed })
+        }
+        className="w-5 h-5 accent-green-500 cursor-pointer disabled:opacity-50"
+      />
       {/* 할 일 내용 (수정 모드) */}
       {isEditing ? (
         <input
