@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { Todo } from "@/types/Todo";
+import TodoDetail from "./TodoDetail";
 import { useDeleteTodo, useEditTodo, useToggleTodo } from "@/hooks/useTodos";
 import { RiDeleteBin6Fill, RiEdit2Fill, RiSave2Fill } from "react-icons/ri";
 
@@ -14,8 +15,10 @@ const TodoForm = ({ todo }: TodoFormProps) => {
   const deleteTodoMutation = useDeleteTodo();
   const editTodoMutation = useEditTodo();
   const toggleTodoMutation = useToggleTodo();
+
   const [isEditing, setIsEditing] = useState(false); // 수정 중인지 아닌지 상태 확인
   const [newText, setNewText] = useState(todo.text); //수정 내용
+  const [showDetail, setShowDetail] = useState(false); // 상세 모달 열린 상태 확인
 
   const handleEdit = () => {
     if (!newText.trim()) return;
@@ -43,13 +46,14 @@ const TodoForm = ({ todo }: TodoFormProps) => {
           className="flex-1 ml-3 px-2 py-1 border rounded"
         />
       ) : (
-        <span
-          className={`flex-1 ml-3 max-w-[250px] overflow-hidden text-ellipsis whitespace-nowrap ${
+        <div
+          className={`flex-1 p-2 ml-3 rounded max-w-[250px] overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer hover:bg-gray-200 ${
             todo.completed ? "line-through text-gray-400" : "text-gray-800"
           }`}
+          onClick={() => setShowDetail(true)}
         >
           {todo.text}
-        </span>
+        </div>
       )}
 
       {/* 날짜 표시 */}
@@ -83,6 +87,11 @@ const TodoForm = ({ todo }: TodoFormProps) => {
           <RiDeleteBin6Fill />
         </button>
       </div>
+
+      {/* 상세 모달 컴포넌트 */}
+      {showDetail && (
+        <TodoDetail todo={todo} onClose={() => setShowDetail(false)} />
+      )}
     </div>
   );
 };
