@@ -8,6 +8,7 @@ import {
 } from "@/lib/todoApi";
 import Pagination from "@/types/Pagination";
 import { EditTodo, ToggleTodo, FilterTodo } from "@/types/Todo";
+import Swal from "sweetalert2";
 
 // 투두 목록 가져오기
 export function useTodos(page: number, perPage: number, filter: FilterTodo) {
@@ -26,6 +27,14 @@ export function useAddTodo() {
     mutationFn: addTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      Swal.fire("추가 완료", "새로운 할 일이 추가되었습니다.", "success");
+    },
+    onError: () => {
+      Swal.fire(
+        "추가 실패",
+        "할 일을 추가하는 중 오류가 발생했습니다.",
+        "error"
+      );
     },
   });
 
@@ -39,8 +48,18 @@ export function useDeleteTodo() {
     mutationFn: deleteTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+
+      Swal.fire("삭제 완료", "할 일이 삭제되었습니다.", "success");
+    },
+    onError: () => {
+      Swal.fire(
+        "삭제 실패",
+        "할 일을 삭제하는 데 문제가 발생했습니다.",
+        "error"
+      );
     },
   });
+  
   return { mutate, isPending, isError };
 }
 
@@ -51,6 +70,14 @@ export function useEditTodo() {
     mutationFn: (todo: EditTodo) => editTodo(todo),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      Swal.fire("수정 완료", "할 일이 수정되었습니다.", "success");
+    },
+    onError: () => {
+      Swal.fire(
+        "수정 실패",
+        "할 일을 수정하는 중 오류가 발생했습니다.",
+        "error"
+      );
     },
   });
 
@@ -64,6 +91,13 @@ export function useToggleTodo() {
     mutationFn: (todo: ToggleTodo) => toggleTodo(todo),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+    onError: () => {
+      Swal.fire(
+        "완료/미완료 설정 실패",
+        "할 일을 완료/미완료 설정하는 중 오류가 발생했습니다.",
+        "error"
+      );
     },
   });
   return { mutate, isPending, isError };

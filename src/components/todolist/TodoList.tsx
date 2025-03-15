@@ -14,7 +14,14 @@ export default function TodoList() {
 
   const { data, isPending, isError } = useTodos(currentPage, perPage, filter);
 
-  if (isPending) return <p className="text-center">로딩 중...</p>;
+  // 로딩 표시
+  if (isPending) return (
+    <div className="flex justify-center items-center h-40">
+      <div className="w-12 h-12 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
+    </div>
+  );
+
+  // 에러 표시
   if (isError)
     return (
       <p className="text-center text-red-500">

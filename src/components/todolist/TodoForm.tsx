@@ -6,6 +6,7 @@ import { Todo } from "@/types/Todo";
 import TodoDetail from "./TodoDetail";
 import { useDeleteTodo, useEditTodo, useToggleTodo } from "@/hooks/useTodos";
 import { RiDeleteBin6Fill, RiEdit2Fill, RiSave2Fill } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 type TodoFormProps = {
   todo: Todo;
@@ -20,10 +21,28 @@ const TodoForm = ({ todo }: TodoFormProps) => {
   const [newText, setNewText] = useState(todo.text); //수정 내용
   const [showDetail, setShowDetail] = useState(false); // 상세 모달 열린 상태 확인
 
+  // 수정 기능
   const handleEdit = () => {
     if (!newText.trim()) return;
     editTodoMutation.mutate({ id: todo.id, text: newText });
     setIsEditing(false);
+  };
+
+  // 삭제 재확인 모달
+  const confirmDelete = ({ todo }: TodoFormProps) => {
+    Swal.fire({
+      title: "정말 삭제하시겠습니까?",
+      text: "삭제하면 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "삭제하기",
+      cancelButtonText: "삭제 취소",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteTodoMutation.mutate(todo.id); // "삭제하기" 클릭 시 삭제 실행
+      }
+    });
   };
 
   return (
@@ -81,7 +100,7 @@ const TodoForm = ({ todo }: TodoFormProps) => {
 
         {/* 삭제 버튼 */}
         <button
-          onClick={() => deleteTodoMutation.mutate(todo.id)}
+          onClick={() => confirmDelete({ todo })}
           className="px-3 py-2 text-red-500 border-red-500 border-2 rounded-md hover:bg-red-500 hover:text-white transition cursor-pointer"
         >
           <RiDeleteBin6Fill />
