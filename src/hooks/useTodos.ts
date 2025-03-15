@@ -15,6 +15,9 @@ export function useTodos(page: number, perPage: number, filter: FilterTodo) {
   const { data, isPending, isError } = useQuery<Pagination>({
     queryKey: ["todos", page, filter],
     queryFn: () => getTodos(page, perPage, filter),
+    staleTime: 10000, // 10초 동안 새로운 요청 보내지 않음
+    gcTime: 60000, // 60초 동안 캐시 유지
+    refetchOnWindowFocus: false, // 창을 다시 포커스할 때 재요청 방지
   });
 
   return { data, isPending, isError };

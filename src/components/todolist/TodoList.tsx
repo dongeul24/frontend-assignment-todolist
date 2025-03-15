@@ -14,12 +14,16 @@ export default function TodoList() {
 
   const { data, isPending, isError } = useTodos(currentPage, perPage, filter);
 
+  const totalPages = data?.pages || 1; //총 페이지 개수(마지막 페이지)
+  const pages = getPagination(currentPage, data?.pages || 1); // 현재 페이지를 기준으로 표시할 페이지 번호 배열 생성
+
   // 로딩 표시
-  if (isPending) return (
-    <div className="flex justify-center items-center h-40">
-      <div className="w-12 h-12 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
-    </div>
-  );
+  if (isPending)
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin"></div>
+      </div>
+    );
 
   // 에러 표시
   if (isError)
@@ -28,9 +32,6 @@ export default function TodoList() {
         데이터를 불러오는 중 오류가 발생했습니다.
       </p>
     );
-
-  const totalPages = data?.pages || 1; //총 페이지 개수(마지막 페이지)
-  const pages = getPagination(currentPage, data?.pages || 1); // 현재 페이지를 기준으로 표시할 페이지 번호 배열 생성
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-5">

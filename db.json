@@ -51,8 +51,14 @@
     {
       "id": "e87f70ec-9343-496c-822c-82f3d8926623",
       "text": "이건 고친 내용zzz",
-      "completed": true,
+      "completed": false,
       "date": "2025-03-14T00:33:32.317Z"
+    },
+    {
+      "id": "e9bd6851-e57d-4836-b749-a6aed5b60b84",
+      "text": "뭘까",
+      "completed": false,
+      "date": "2025-03-16T10:04:44.528Z"
     }
   ]
 }

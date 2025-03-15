@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format } from "date-fns";
+import formatDate from "@/utils/formatDate";
 import { Todo } from "@/types/Todo";
 import TodoDetail from "./TodoDetail";
 import { useDeleteTodo, useEditTodo, useToggleTodo } from "@/hooks/useTodos";
@@ -76,9 +76,7 @@ const TodoForm = ({ todo }: TodoFormProps) => {
       )}
 
       {/* 날짜 표시 */}
-      <span className="text-sm text-gray-500">
-        {format(new Date(todo.date), "yyyy. MM. dd. HH:mm")}
-      </span>
+      <span className="text-sm text-gray-500">{formatDate(todo.date)}</span>
 
       {/* 버튼 그룹 */}
       <div className="flex items-center ml-3 space-x-2">

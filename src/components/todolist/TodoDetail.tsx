@@ -1,7 +1,7 @@
 "use client";
 
 import { Todo } from "@/types/Todo";
-import { format } from "date-fns";
+import formatDate from "@/utils/formatDate";
 
 type TodoDetailProps = {
   todo: Todo;
@@ -27,11 +27,10 @@ const TodoDetail = ({ todo, onClose }: TodoDetailProps) => {
 
         {/* 작성 날짜 */}
         <div className="mt-4">
-          <div className="text-lg font-semibold text-gray-600">📆 작성 날짜</div>
-          <p className="text-base text-gray-500">
-            {" "}
-            {format(new Date(todo.date), "yyyy. MM. dd. HH:mm")}
-          </p>
+          <div className="text-lg font-semibold text-gray-600">
+            📆 작성 날짜
+          </div>
+          <p className="text-base text-gray-500"> {formatDate(todo.date)}</p>
         </div>
 
         {/* 완료 여부 */}
