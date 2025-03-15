@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import TodoForm from "./TodoForm";
+import TodoFilter from "./TodoFilter";
 import { useTodos } from "@/hooks/useTodos";
 import { getPagination } from "@/utils/getPagination";
+import { FilterTodo } from "@/types/Todo";
 
 export default function TodoList() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 5;
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [filter, setFilter] = useState<FilterTodo>("all"); // 필터 종류
+  const perPage = 5; //한 페이지에 5개의 Todos 보여주기
 
-  const { data, isPending, isError } = useTodos(currentPage, perPage);
+  const { data, isPending, isError } = useTodos(currentPage, perPage, filter);
 
   if (isPending) return <p className="text-center">로딩 중...</p>;
   if (isError)
@@ -24,6 +27,9 @@ export default function TodoList() {
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-5">
+      {/* 필터 컴포넌트 */}
+      <TodoFilter filter={filter} setFilter={setFilter} />
+
       {/* Todo 리스트 */}
       <div className="space-y-3">
         {data?.data.map((todo) => (

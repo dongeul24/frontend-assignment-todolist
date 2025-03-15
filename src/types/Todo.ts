@@ -13,3 +13,6 @@ export type EditTodo = Pick<Todo, "id" | "text">;
 
 // ToggleTodo 타입
 export type ToggleTodo = Omit<Todo, "text" | "date">;
+
+// FilterType 타입
+export type FilterTodo = "all" | "completed" | "incomplete";

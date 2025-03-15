@@ -7,13 +7,13 @@ import {
   toggleTodo,
 } from "@/lib/todoApi";
 import Pagination from "@/types/Pagination";
-import { EditTodo, ToggleTodo } from "@/types/Todo";
+import { EditTodo, ToggleTodo, FilterTodo } from "@/types/Todo";
 
 // 투두 목록 가져오기
-export function useTodos(page: number, perPage: number) {
+export function useTodos(page: number, perPage: number, filter: FilterTodo) {
   const { data, isPending, isError } = useQuery<Pagination>({
-    queryKey: ["todos", page],
-    queryFn: () => getTodos(page, perPage),
+    queryKey: ["todos", page, filter],
+    queryFn: () => getTodos(page, perPage, filter),
   });
 
   return { data, isPending, isError };
