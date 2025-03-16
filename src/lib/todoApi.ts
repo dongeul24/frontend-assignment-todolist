@@ -1,7 +1,7 @@
 import Pagination from "@/types/Pagination";
 import Todo, { ToggleTodo, EditTodo, FilterTodo } from "@/types/Todo";
 
-const API_URL = `${process.env.REACT_APP_TODOS}/todos`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/todos`;
 
 // 모든 투두 가져오기 (GET)
 export async function getTodos(
@@ -9,23 +9,26 @@ export async function getTodos(
   perPage: number = 5,
   filter: FilterTodo
 ): Promise<Pagination> {
-  let url = `${API_URL}?_page=${page}&_per_page=${perPage}&_sort=-date`; // 최신순 정렬
+  console.log("API 요청 확인:", API_URL);
+  let url = `${API_URL}?_page=${page}&_limit=${perPage}&_sort=date&_order=desc`; // 최신순 정렬
 
-  // 필터(완료/미완료/모두) 가져올 때 적용
   if (filter === "completed") {
     url += `&completed=true`;
   } else if (filter === "incomplete") {
     url += `&completed=false`;
   }
-  
+
   const response = await fetch(url);
+  console.log("응답 헤더:", response.headers);
+
   if (!response.ok) throw new Error("데이터를 불러오는 데 실패했습니다.");
 
   const originalData = await response.json();
-  const data = originalData.data;
 
-  // 데이터 총 개수
-  const totalCount = originalData.items;
+  const data = originalData;
+
+  // totalCount가 X-Total-Count에 없으면 data.length 사용
+  const totalCount = response.headers.get("X-Total-Count") || data.length;
 
   return {
     data,
