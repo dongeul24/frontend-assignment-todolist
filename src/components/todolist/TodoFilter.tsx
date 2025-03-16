@@ -14,7 +14,7 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
       {/* 모든 Todos 보여주기 */}
       <button
         onClick={() => setFilter("all")}
-        className={`px-4 py-2 border rounded-md cursor-pointer ${
+        className={`px-4 py-2 border rounded-md cursor-pointer hover:bg-blue-300 ${
           filter === "all" ? "bg-blue-500 text-white" : "bg-gray-100"
         }`}
       >
@@ -24,7 +24,7 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
       {/* 완료된 Todos 보여주기 */}
       <button
         onClick={() => setFilter("completed")}
-        className={`px-4 py-2 border rounded-md cursor-pointer ${
+        className={`px-4 py-2 border rounded-md cursor-pointer hover:bg-green-300 ${
           filter === "completed" ? "bg-green-500 text-white" : "bg-gray-100"
         }`}
       >
@@ -34,7 +34,7 @@ const TodoFilter = ({ filter, setFilter }: TodoFilterProps) => {
       {/* 미완료된 Todos 보여주기 */}
       <button
         onClick={() => setFilter("incomplete")}
-        className={`px-4 py-2 border rounded-md cursor-pointer ${
+        className={`px-4 py-2 border rounded-md cursor-pointer hover:bg-red-300  ${
           filter === "incomplete" ? "bg-red-500 text-white" : "bg-gray-100"
         }`}
       >

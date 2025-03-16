@@ -9,7 +9,6 @@ export async function getTodos(
   perPage: number = 5,
   filter: FilterTodo
 ): Promise<Pagination> {
-  console.log("API 요청 확인:", API_URL);
   let url = `${API_URL}?_page=${page}&_limit=${perPage}&_sort=date&_order=desc`; // 최신순 정렬
 
   if (filter === "completed") {
@@ -19,7 +18,6 @@ export async function getTodos(
   }
 
   const response = await fetch(url);
-  console.log("응답 헤더:", response.headers);
 
   if (!response.ok) throw new Error("데이터를 불러오는 데 실패했습니다.");
 

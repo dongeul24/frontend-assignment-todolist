@@ -37,7 +37,13 @@ export default function TodoList() {
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-5">
       {/* 필터 컴포넌트 */}
-      <TodoFilter filter={filter} setFilter={setFilter} />
+      <TodoFilter
+        filter={filter}
+        setFilter={(newFilter) => {
+          setFilter(newFilter);
+          setCurrentPage(1); // 필터 변경 시 1페이지로 이동
+        }}
+      />
 
       {/* Todo 리스트 */}
       <div className="flex flex-col gap-3">
@@ -52,7 +58,7 @@ export default function TodoList() {
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50"
+          className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50 disabled:bg-gray-500 hover:bg-blue-300"
         >
           <FaChevronLeft />
         </button>
@@ -81,7 +87,7 @@ export default function TodoList() {
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50"
+          className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50 disabled:bg-gray-500 hover:bg-blue-300"
         >
           <FaChevronRight />
         </button>
