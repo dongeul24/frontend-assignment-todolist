@@ -26,7 +26,7 @@ const TodoInput = () => {
         value={textInput}
         onChange={(e) => setTextInput(e.target.value)}
         className="flex-1 px-4 py-2 border rounded-md"
-        placeholder="할 일을 입력하세요..  (예) NextJS 공부하기."
+        placeholder="할 일을 입력하세요..."
       />
 
       {/* 추가 버튼 */}

@@ -6,11 +6,12 @@ import TodoFilter from "./TodoFilter";
 import { useTodos } from "@/hooks/useTodos";
 import { getPagination } from "@/utils/getPagination";
 import { FilterTodo } from "@/types/Todo";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function TodoList() {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [filter, setFilter] = useState<FilterTodo>("all"); // 필터 종류
-  const perPage = 5; //한 페이지에 5개의 Todos 보여주기
+  const perPage = 4; //한 페이지에 4개의 Todos 보여주기
 
   const { data, isPending, isError } = useTodos(currentPage, perPage, filter);
 
@@ -39,7 +40,7 @@ export default function TodoList() {
       <TodoFilter filter={filter} setFilter={setFilter} />
 
       {/* Todo 리스트 */}
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {data?.data.map((todo) => (
           <TodoForm key={todo.id} todo={todo} />
         ))}
@@ -53,21 +54,28 @@ export default function TodoList() {
           disabled={currentPage === 1}
           className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50"
         >
-          이전
+          <FaChevronLeft />
         </button>
 
-        {/* 페이지 버튼 */}
-        {pages.map((page) => (
-          <button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`px-3 py-1 border rounded-md cursor-pointer ${
-              currentPage === page ? "bg-blue-500 text-white" : "bg-gray-100"
-            }`}
-          >
-            {page}
-          </button>
-        ))}
+        {/* 모바일 환경에서는 현재 페이지 숫자만 표시 */}
+        <span className="sm:hidden px-3 py-1 border rounded-md bg-blue-500 text-white">
+          {currentPage}
+        </span>
+
+        {/* 데스크톱 환경에서는 전체 페이지 버튼 표시 */}
+        <div className="hidden sm:flex space-x-2">
+          {pages.map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-3 py-1 border rounded-md cursor-pointer ${
+                currentPage === page ? "bg-blue-500 text-white" : "bg-gray-100"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
 
         {/* 다음 버튼 */}
         <button
@@ -75,7 +83,7 @@ export default function TodoList() {
           disabled={currentPage === totalPages}
           className="px-3 py-1 border rounded-md bg-gray-100 cursor-pointer disabled:opacity-50"
         >
-          다음
+          <FaChevronRight />
         </button>
       </div>
     </div>

@@ -4,15 +4,16 @@ import { useState } from "react";
 import formatDate from "@/utils/formatDate";
 import { Todo } from "@/types/Todo";
 import TodoDetail from "./TodoDetail";
+import ModifyTodoButton from "./ModifyTodoButton";
 import { useDeleteTodo, useEditTodo, useToggleTodo } from "@/hooks/useTodos";
-import { RiDeleteBin6Fill, RiEdit2Fill, RiSave2Fill } from "react-icons/ri";
 import Swal from "sweetalert2";
 
 type TodoFormProps = {
   todo: Todo;
+  isDetailPage?: boolean;
 };
 
-const TodoForm = ({ todo }: TodoFormProps) => {
+const TodoForm = ({ todo, isDetailPage = false }: TodoFormProps) => {
   const deleteTodoMutation = useDeleteTodo();
   const editTodoMutation = useEditTodo();
   const toggleTodoMutation = useToggleTodo();
@@ -29,7 +30,7 @@ const TodoForm = ({ todo }: TodoFormProps) => {
   };
 
   // 삭제 재확인 모달
-  const confirmDelete = ({ todo }: TodoFormProps) => {
+  const confirmDelete = () => {
     Swal.fire({
       title: "정말 삭제하시겠습니까?",
       text: "삭제하면 되돌릴 수 없습니다.",
@@ -46,7 +47,7 @@ const TodoForm = ({ todo }: TodoFormProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md transition hover:shadow-lg">
+    <div className="flex items-center justify-between bg-gray-100 p-2 sm:p-6 rounded-lg shadow-md transition hover:shadow-lg">
       {/* 체크박스 (완료/미완료 토글) */}
       <input
         type="checkbox"
@@ -75,35 +76,19 @@ const TodoForm = ({ todo }: TodoFormProps) => {
         </div>
       )}
 
-      {/* 날짜 표시 */}
-      <span className="text-sm text-gray-500">{formatDate(todo.date)}</span>
+      {/* 날짜 표시 (모바일에서는 숨기고, sm 이상에서만 보이게) */}
+      <span className="hidden sm:block text-sm text-gray-500">
+        {formatDate(todo.date)}
+      </span>
 
       {/* 버튼 그룹 */}
-      <div className="flex items-center ml-3 space-x-2">
-        {isEditing ? (
-          <button
-            onClick={handleEdit}
-            className="px-3 py-2 text-blue-500 border-blue-500 border-2 rounded-md hover:bg-blue-500 hover:text-white transition cursor-pointer"
-          >
-            <RiSave2Fill />
-          </button>
-        ) : (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="px-3 py-2 text-green-500 border-green-500 border-2 rounded-md hover:bg-green-500 hover:text-white transition cursor-pointer"
-          >
-            <RiEdit2Fill />
-          </button>
-        )}
-
-        {/* 삭제 버튼 */}
-        <button
-          onClick={() => confirmDelete({ todo })}
-          className="px-3 py-2 text-red-500 border-red-500 border-2 rounded-md hover:bg-red-500 hover:text-white transition cursor-pointer"
-        >
-          <RiDeleteBin6Fill />
-        </button>
-      </div>
+      <ModifyTodoButton
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        handleEdit={handleEdit}
+        confirmDelete={confirmDelete}
+        isDetailPage={isDetailPage} // 상세 페이지 여부 전달
+      />
 
       {/* 상세 모달 컴포넌트 */}
       {showDetail && (
@@ -114,3 +99,4 @@ const TodoForm = ({ todo }: TodoFormProps) => {
 };
 
 export default TodoForm;
+
