@@ -6,15 +6,7 @@ import { FaPlus } from "react-icons/fa";
 
 const TodoInput = () => {
   const [textInput, setTextInput] = useState(""); // 추가할 투두 내용
-  const { mutate: addTodoMutation, isPending, isError } = useAddTodo();
-
-  if (isPending) return <p className="text-center">로딩 중...</p>;
-  if (isError)
-    return (
-      <p className="text-center text-red-500">
-        데이터를 추가하는 중 오류가 발생했습니다.
-      </p>
-    );
+  const { mutate: addTodoMutation } = useAddTodo();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +26,7 @@ const TodoInput = () => {
         value={textInput}
         onChange={(e) => setTextInput(e.target.value)}
         className="flex-1 px-4 py-2 border rounded-md"
-        placeholder="할 일을 입력하세요..  (예) NextJS 공부하기."
+        placeholder="할 일을 입력하세요..."
       />
 
       {/* 추가 버튼 */}

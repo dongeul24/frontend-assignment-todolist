@@ -4,10 +4,15 @@ export type Todo = {
   text: string; // 투두 내용
   completed: boolean; // 완료/미완료 표시
   date: string; // 작성 날짜
-}
+};
 
 export default Todo;
 
+// EditTodo 타입
+export type EditTodo = Pick<Todo, "id" | "text">;
 
 // ToggleTodo 타입
 export type ToggleTodo = Omit<Todo, "text" | "date">;
+
+// FilterType 타입
+export type FilterTodo = "all" | "completed" | "incomplete";
