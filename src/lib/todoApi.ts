@@ -1,7 +1,7 @@
 import Pagination from "@/types/Pagination";
 import Todo, { ToggleTodo, EditTodo, FilterTodo } from "@/types/Todo";
 
-const API_URL = "http://localhost:3000/todos";
+const API_URL = `${process.env.REACT_APP_TODOS}/todos`;
 
 // 모든 투두 가져오기 (GET)
 export async function getTodos(
